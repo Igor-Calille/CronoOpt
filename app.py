@@ -1,4 +1,4 @@
-
+#https://chatgpt.com/c/5283a1f6-597b-40a1-9a67-de277ca4dbd9
 import pulp
 
 # Definindo o problema
