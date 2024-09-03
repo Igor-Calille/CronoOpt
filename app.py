@@ -1,7 +1,6 @@
 #https://chatgpt.com/c/5283a1f6-597b-40a1-9a67-de277ca4dbd9
 import pulp
 
-# Definindo o problema
 model = pulp.LpProblem("Class_Scheduling", pulp.LpMaximize)
 
 # Parâmetros
@@ -50,7 +49,6 @@ class_weights = {
     "Aula10": 1.0
 }
 
-# Variáveis de decisão
 X = pulp.LpVariable.dicts("X", (days, periods, classes), cat='Binary')
 
 # Função Objetivo: Maximizar o valor total das alocações com pesos
@@ -84,10 +82,8 @@ for t, restricoes in {**restricoes_indisponibilidade, **restricoes_dependencia}.
     for (dia, periodo) in restricoes:
         model += X[dia][periodo][t] == 0, f"Restricao_{dia}_{periodo}_{t}"
 
-# Resolvendo o problema
 model.solve()
 
-# Status do resultado
 print(f"Status: {pulp.LpStatus[model.status]}")
 
 # Exibindo o cronograma

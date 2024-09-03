@@ -38,9 +38,24 @@ Este projeto tem como objetivo desenvolver um sistema automatizado para a defini
 ### 4. **Flexibilidade e Escalabilidade:**
    - O sistema foi projetado para ser flexível e facilmente adaptável a diferentes contextos e necessidades. Novas restrições podem ser adicionadas com facilidade, e o modelo pode ser ajustado para diferentes números de aulas, dias e períodos.
 
-## Conclusão
+## Implementação
 
+A implementação do sistema de definição de cronogramas foi realizada utilizando a biblioteca `pulp` para resolver o problema de Programação Linear Inteira (ILP). A seguir, detalhamos a escolha dessa biblioteca e como ela foi utilizada no projeto.
+
+### Escolha da Biblioteca `pulp`
+
+A escolha da biblioteca `pulp` se deu pelos seguintes motivos:
+
+- **Facilidade de Uso**: `pulp` oferece uma API simples e intuitiva, permitindo a modelagem de problemas de programação linear e inteira de maneira direta e eficiente.
+- **Eficiência**: `pulp` utiliza solvers otimizados, como CBC e GLPK, que são altamente eficientes na resolução de problemas de otimização, mesmo quando estes envolvem grande complexidade e número de variáveis.
+- **Flexibilidade**: A biblioteca suporta tanto programação linear quanto programação inteira, o que é essencial para modelar as diversas restrições e variáveis binárias envolvidas no cronograma de aulas.
+- **Compatibilidade**: `pulp` é uma biblioteca amplamente utilizada e bem documentada, com suporte a diversos solvers, permitindo que o projeto seja escalável e adaptável a diferentes necessidades e contextos.
+
+### Estrutura do Código
+- Parâmetros: Os dias da semana, períodos, aulas e suas respectivas frequências são definidos no início do script.
+- Função Objetivo: A função objetivo busca maximizar a alocação das aulas considerando os pesos atribuídos aos dias, períodos e tipos de aula.
+- Restrições: Restrições de frequência, não sobreposição e disponibilidade são implementadas para garantir a viabilidade da solução.
+- Resolução: O problema é resolvido utilizando o solver padrão do pulp, e o resultado é exibido no console.
+
+### Conclusão
 Este sistema de definição de cronograma de aulas é uma ferramenta poderosa para instituições de ensino que buscam otimizar a alocação de aulas, levando em consideração as necessidades e restrições de professores e alunos. Com uma abordagem baseada em otimização matemática, o projeto demonstra como a tecnologia pode ser aplicada para melhorar processos educacionais críticos.
-
----
-
