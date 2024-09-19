@@ -59,3 +59,5 @@ A escolha da biblioteca `pulp` se deu pelos seguintes motivos:
 
 ### Conclusão
 Este sistema de definição de cronograma de aulas é uma ferramenta poderosa para instituições de ensino que buscam otimizar a alocação de aulas, levando em consideração as necessidades e restrições de professores e alunos. Com uma abordagem baseada em otimização matemática, o projeto demonstra como a tecnologia pode ser aplicada para melhorar processos educacionais críticos.
+
+curl -X POST "http://127.0.0.1:8000/schedule" -H "Content-Type: application/json" --data "@data.json"

@@ -1,28 +1,36 @@
-import React, { useState } from "react";
-import FormInput from "./components/FormInput";
-import ScheduleTable from "./components/ScheduleTable";
+import React, { useState } from 'react';
+import ScheduleForm from './components/ScheduleForm';
+import ScheduleDisplay from './components/ScheduleDisplay';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
-  const [schedule, setSchedule] = useState(null);
+  const [schedule, setSchedule] = useState([]);
+  const [error, setError] = useState(null);
 
-  const submitForm = (data) => {
-    fetch("http://127.0.0.1:8000/schedule", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  // Criando o tema de maneira correta
+  const theme = createTheme({
+    palette: {
+      mode: 'light',
+      primary: {
+        main: '#1976d2',
       },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => setSchedule(data.schedule));
-  };
+      secondary: {
+        main: '#dc004e',
+      },
+    },
+  });
 
   return (
-    <div className="App">
-      <h1>Gerador de Cronograma de Aulas</h1>
-      <FormInput onSubmit={submitForm} />
-      {schedule && <ScheduleTable schedule={schedule} />}
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className="App" style={{ padding: '2rem', backgroundColor: '#f5f5f5' }}>
+        <h1>CronoOpt</h1>
+        {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
+        <ScheduleForm setSchedule={setSchedule} setError={setError} />
+        <ScheduleDisplay schedule={schedule} />
+      </div>
+    </ThemeProvider>
   );
 }
 

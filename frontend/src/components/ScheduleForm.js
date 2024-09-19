@@ -1,0 +1,159 @@
+import React from 'react';
+import { Button, Typography } from '@mui/material';
+import api from '../services/api';
+
+function ScheduleForm({ setSchedule, setError }) { // Adicionamos setError como prop
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const data = {
+        years: [1, 2, 3, 4],
+        days: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"],
+        periods: ["7:15-8:55", "9:05-10:45", "10:55-12:35"],
+        classes_per_year: {
+          "1": ["Aula1", "Aula2", "Aula3", "Aula4", "Aula5", "Aula6", "Aula7", "Aula8"],
+          "2": ["Aula9", "Aula10", "Aula11", "Aula12", "Aula13", "Aula14"],
+          "3": ["Aula15", "Aula16", "Aula17", "Aula18", "Aula19", "Aula20", "Aula21"],
+          "4": ["Aula22", "Aula23", "Aula24", "Aula25", "Aula26", "Aula27", "Aula28"]
+        },
+        professors: ["ProfessorA", "ProfessorB", "ProfessorC", "ProfessorD", "ProfessorE", "ProfessorF", "ProfessorG", "ProfessorH", "ProfessorI", "ProfessorJ", "ProfessorK", "ProfessorL", "ProfessorM", "ProfessorN", "ProfessorO", "ProfessorP", "ProfessorQ"],
+        labs_per_year: {
+          "1": ["Aula3", "Aula6"],
+          "2": ["Aula11", "Aula14"],
+          "3": ["Aula17", "Aula20"],
+          "4": ["Aula24", "Aula27"]
+        },
+        class_count_per_year: {
+          "1": {
+            "Aula1": 2,
+            "Aula2": 2,
+            "Aula3": 1,
+            "Aula4": 1,
+            "Aula5": 2,
+            "Aula6": 1,
+            "Aula7": 1,
+            "Aula8": 2
+          },
+          "2": {
+            "Aula9": 2,
+            "Aula10": 1,
+            "Aula11": 2,
+            "Aula12": 1,
+            "Aula13": 2,
+            "Aula14": 1
+          },
+          "3": {
+            "Aula15": 1,
+            "Aula16": 2,
+            "Aula17": 1,
+            "Aula18": 2,
+            "Aula19": 1,
+            "Aula20": 2,
+            "Aula21": 1
+          },
+          "4": {
+            "Aula22": 2,
+            "Aula23": 1,
+            "Aula24": 2,
+            "Aula25": 1,
+            "Aula26": 2,
+            "Aula27": 1,
+            "Aula28": 2
+          }
+        },
+        day_weights: {
+          "Segunda": 1.0,
+          "Terça": 1.0,
+          "Quarta": 1.0,
+          "Quinta": 1.0,
+          "Sexta": 1.0
+        },
+        period_weights: {
+          "7:15-8:55": 1.5,
+          "9:05-10:45": 1.0,
+          "10:55-12:35": 0.7
+        },
+        class_weights: {
+          "Aula1": 1.0, "Aula2": 1.0, "Aula3": 1.0, "Aula4": 1.0, "Aula5": 1.0, "Aula6": 1.0, "Aula7": 1.0, "Aula8": 1.0,
+          "Aula9": 1.0, "Aula10": 1.0, "Aula11": 1.0, "Aula12": 1.0, "Aula13": 1.0, "Aula14": 1.0,
+          "Aula15": 1.0, "Aula16": 1.0, "Aula17": 1.0, "Aula18": 1.0, "Aula19": 1.0, "Aula20": 1.0, "Aula21": 1.0,
+          "Aula22": 1.0, "Aula23": 1.0, "Aula24": 1.0, "Aula25": 1.0, "Aula26": 1.0, "Aula27": 1.0, "Aula28": 1.0
+        },
+        professor_associations_per_year: {
+          "1": {
+            "Aula1": "ProfessorA",
+            "Aula2": "ProfessorB",
+            "Aula3": "ProfessorC",
+            "Aula4": "ProfessorD",
+            "Aula5": "ProfessorA",
+            "Aula6": "ProfessorB",
+            "Aula7": "ProfessorE",
+            "Aula8": "ProfessorC"
+          },
+          "2": {
+            "Aula9": "ProfessorA",
+            "Aula10": "ProfessorG",
+            "Aula11": "ProfessorH",
+            "Aula12": "ProfessorF",
+            "Aula13": "ProfessorI",
+            "Aula14": "ProfessorG"
+          },
+          "3": {
+            "Aula15": "ProfessorJ",
+            "Aula16": "ProfessorK",
+            "Aula17": "ProfessorL",
+            "Aula18": "ProfessorM",
+            "Aula19": "ProfessorJ",
+            "Aula20": "ProfessorK",
+            "Aula21": "ProfessorL"
+          },
+          "4": {
+            "Aula22": "ProfessorA",
+            "Aula23": "ProfessorO",
+            "Aula24": "ProfessorP",
+            "Aula25": "ProfessorQ",
+            "Aula26": "ProfessorN",
+            "Aula27": "ProfessorO",
+            "Aula28": "ProfessorP"
+          }
+        },
+        restricoes_indisponibilidade_professors: {
+          "ProfessorA": [["Terça", "9:05-10:45"], ["Quinta", "9:05-10:45"]],
+          "ProfessorB": [["Segunda", "7:15-8:55"]],
+          "ProfessorF": [["Quarta", "10:55-12:35"]],
+          "ProfessorJ": [["Sexta", "9:05-10:45"]],
+          "ProfessorN": [["Terça", "7:15-8:55"]]
+        },
+        restricoes_dependencia: {
+          "Aula3": [["Quarta", "10:55-12:35"]],
+          "Aula9": [["Sexta", "7:15-8:55"]],
+          "Aula17": [["Segunda", "9:05-10:45"]],
+          "Aula24": [["Quinta", "7:15-8:55"]]
+        }
+      };
+
+    try {
+      const response = await api.post('/schedule', data);
+      setSchedule(response.data.schedule);
+      setError(null); // Resetando o erro caso tenha sucesso
+    } catch (error) {
+      console.error('Erro ao gerar o cronograma:', error);
+      setError('Não foi possível gerar o cronograma. Tente novamente mais tarde.');
+    }
+  };
+  
+  return (
+    <div>
+      <Typography variant="h4" gutterBottom>
+        Gerar Cronograma
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Button variant="contained" color="primary" type="submit">
+          Gerar Cronograma
+        </Button>
+      </form>
+    </div>
+  );
+}
+
+export default ScheduleForm;
